@@ -311,7 +311,7 @@ dependencies = [
  "anyhow",
  "check-if-email-exists",
  "clap",
- "openssl-sys",
+ "openssl",
  "serde",
  "serde_json",
  "time",

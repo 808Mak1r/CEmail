@@ -180,7 +180,7 @@ jobs:
         rustup default
         cargo -V
         rustc -V
-        
+
     - name: Build
       uses: actions-rs/cargo@v1
       with:
@@ -412,18 +412,18 @@ jobs:
     #     # build dpkg
     #     fakeroot dpkg-deb --build "${DPKG_DIR}" "${DPKG_PATH}"
 
-    - name: "Artifact upload: tarball"
-      uses: actions/upload-artifact@master
-      with:
-        name: ${{ steps.package.outputs.PKG_NAME }}
-        path: ${{ steps.package.outputs.PKG_PATH }}
+    # - name: "Artifact upload: tarball"
+    #   uses: actions/upload-artifact@master
+    #   with:
+    #     name: ${{ steps.package.outputs.PKG_NAME }}
+    #     path: ${{ steps.package.outputs.PKG_PATH }}
 
-    - name: "Artifact upload: Debian package"
-      uses: actions/upload-artifact@master
-      if: steps.debian-package.outputs.DPKG_NAME
-      with:
-        name: ${{ steps.debian-package.outputs.DPKG_NAME }}
-        path: ${{ steps.debian-package.outputs.DPKG_PATH }}
+    # - name: "Artifact upload: Debian package"
+    #   uses: actions/upload-artifact@master
+    #   if: steps.debian-package.outputs.DPKG_NAME
+    #   with:
+    #     name: ${{ steps.debian-package.outputs.DPKG_NAME }}
+    #     path: ${{ steps.debian-package.outputs.DPKG_PATH }}
 
     - name: Check for release
       id: is-release
