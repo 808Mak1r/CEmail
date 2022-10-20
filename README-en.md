@@ -49,9 +49,11 @@ OPTIONS:
 ```
 
 State:
+
 - `Safe`: Express can be delivered
 - `Risky`: It means that the risk is not necessarily
 - `Invalid`: Indicate that there is no existence
+- `Unknown`
 
 Detect a single target mailbox
 

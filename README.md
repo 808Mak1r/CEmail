@@ -53,6 +53,7 @@ OPTIONS:
 - `Safe`: 表示可送达
 - `Risky`: 表示存在风险不一定
 - `Invalid`: 表示不存在
+- `Unknown`
 
 检测单个目标邮箱
 

@@ -10,6 +10,6 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [Unreleased]
 
-## [0.1.0] - 2022-10-19
+## [0.1.0] - 2022-10-20
 
 - [CEmail](https://github.com/808Mak1r/CEmail) 0.1.0版本发布
