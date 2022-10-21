@@ -77,13 +77,13 @@ jobs:
           command: build
           args: --locked --release --target=${{ matrix.target }}
 
-      - name: Upload Github Assets
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: build/release/*
-          prerelease: ${{ contains(github.ref, '-') }}
+      # - name: Upload Github Assets
+      #   uses: softprops/action-gh-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     files: build/release/*
+      #     prerelease: ${{ contains(github.ref, '-') }}
 
   build-unix:
     runs-on: ${{ matrix.os }}
