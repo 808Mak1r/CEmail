@@ -41,7 +41,7 @@ jobs:
         with:
           profile: minimal
           target: ${{ matrix.target }}
-          toolchain: nightly
+          toolchain: stable
           default: true
           override: true
 
@@ -106,7 +106,7 @@ jobs:
         with:
           profile: minimal
           target: ${{ matrix.target }}
-          toolchain: nightly
+          toolchain: stable
           default: true
           override: true
 
@@ -141,7 +141,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: nightly
+          toolchain: stable
           default: true
           override: true
 
