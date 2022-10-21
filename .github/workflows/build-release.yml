@@ -17,21 +17,21 @@ jobs:
     strategy:
       matrix:
         target:
-          - i686-unknown-linux-musl
+          # - i686-unknown-linux-musl
           - x86_64-pc-windows-gnu
-          - x86_64-unknown-linux-gnu
-          - x86_64-unknown-linux-musl
-          - armv7-unknown-linux-musleabihf
-          - armv7-unknown-linux-gnueabihf
-          - arm-unknown-linux-gnueabi
-          - arm-unknown-linux-gnueabihf
-          - arm-unknown-linux-musleabi
-          - arm-unknown-linux-musleabihf
-          - aarch64-unknown-linux-gnu
-          - aarch64-unknown-linux-musl
-          - mips-unknown-linux-musl
-          - mips-unknown-linux-gnu
-          - mipsel-unknown-linux-musl
+          # - x86_64-unknown-linux-gnu
+          # - x86_64-unknown-linux-musl
+          # - armv7-unknown-linux-musleabihf
+          # - armv7-unknown-linux-gnueabihf
+          # - arm-unknown-linux-gnueabi
+          # - arm-unknown-linux-gnueabihf
+          # - arm-unknown-linux-musleabi
+          # - arm-unknown-linux-musleabihf
+          # - aarch64-unknown-linux-gnu
+          # - aarch64-unknown-linux-musl
+          # - mips-unknown-linux-musl
+          # - mips-unknown-linux-gnu
+          # - mipsel-unknown-linux-musl
 
     steps:
       - uses: actions/checkout@v2
@@ -89,7 +89,7 @@ jobs:
         # os: [ubuntu-latest, macos-latest]
         os: [macos-latest]
         target:
-          - x86_64-apple-darwin
+          # - x86_64-apple-darwin
           - aarch64-apple-darwin
     steps:
       - uses: actions/checkout@v2
@@ -129,30 +129,30 @@ jobs:
           files: build/release/*
           prerelease: ${{ contains(github.ref, '-') }}
 
-  build-windows:
-    runs-on: windows-latest
-    env:
-      RUSTFLAGS: "-C target-feature=+crt-static"
-      RUST_BACKTRACE: full
-    steps:
-      - uses: actions/checkout@v2
+  # build-windows:
+  #   runs-on: windows-latest
+  #   env:
+  #     RUSTFLAGS: "-C target-feature=+crt-static"
+  #     RUST_BACKTRACE: full
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          default: true
-          override: true
+  #     - name: Install Rust
+  #       uses: actions-rs/toolchain@v1
+  #       with:
+  #         profile: minimal
+  #         toolchain: stable
+  #         default: true
+  #         override: true
 
-      - name: Build release
-        run: |
-          pwsh ./build/build-host-release.ps1
+  #     - name: Build release
+  #       run: |
+  #         pwsh ./build/build-host-release.ps1
 
-      - name: Upload Github Assets
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: build/release/*
-          prerelease: ${{ contains(github.ref, '-') }}
+  #     - name: Upload Github Assets
+  #       uses: softprops/action-gh-release@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         files: build/release/*
+  #         prerelease: ${{ contains(github.ref, '-') }}
