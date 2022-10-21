@@ -16,4 +16,4 @@ tracing-subscriber = { version="0.3.15", features = ["time", "local-time"] }
 time = { version = "0.3.14", features = ["macros"] }
 clap = { version = "3.2.22", features = ["derive"] }
 anyhow = "1.0.65"
-openssl = { version = "0.10.40", default-features = false, features = ["vendored"] }
+openssl-sys = { version = "0.9.75", default-features = false, features = ["vendored"] }
