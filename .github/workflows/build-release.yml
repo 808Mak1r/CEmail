@@ -116,43 +116,52 @@ jobs:
           sudo xcode-select -s /Applications/Xcode_12.4.app &&
           sudo rm -Rf /Library/Developer/CommandLineTools/SDKs/*
 
-      - name: Build release
-        shell: bash
-        run: |
-          ./build/build-host-release -t ${{ matrix.target }}
-
-      - name: Upload Github Assets
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build
+        uses: actions-rs/cargo@v1
         with:
-          files: build/release/*
-          prerelease: ${{ contains(github.ref, '-') }}
+          # use-cross: ${{ matrix.job.use-cross }}
+          command: build
+          args: --locked --release --target=${{ matrix.target }}
+      # - name: Build release
+      #   shell: bash
+      #   run: |
+      #     ./build/build-host-release -t ${{ matrix.target }}
 
-  # build-windows:
-  #   runs-on: windows-latest
-  #   env:
-  #     RUSTFLAGS: "-C target-feature=+crt-static"
-  #     RUST_BACKTRACE: full
-  #   steps:
-  #     - uses: actions/checkout@v2
+      # - name: Upload Github Assets
+      #   uses: softprops/action-gh-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     files: build/release/*
+      #     prerelease: ${{ contains(github.ref, '-') }}
 
-  #     - name: Install Rust
-  #       uses: actions-rs/toolchain@v1
-  #       with:
-  #         profile: minimal
-  #         toolchain: stable
-  #         default: true
-  #         override: true
+  build-windows:
+    runs-on: windows-latest
+    env:
+      RUSTFLAGS: "-C target-feature=+crt-static"
+      RUST_BACKTRACE: full
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: Build release
-  #       run: |
-  #         pwsh ./build/build-host-release.ps1
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          default: true
+          override: true
 
-  #     - name: Upload Github Assets
-  #       uses: softprops/action-gh-release@v1
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         files: build/release/*
-  #         prerelease: ${{ contains(github.ref, '-') }}
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          # use-cross: ${{ matrix.job.use-cross }}
+          command: build
+          args: --locked --release --target=${{ matrix.target }}
+
+      # - name: Upload Github Assets
+      #   uses: softprops/action-gh-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     files: build/release/*
+      #     prerelease: ${{ contains(github.ref, '-') }}
