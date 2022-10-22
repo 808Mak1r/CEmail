@@ -231,6 +231,7 @@ jobs:
         echo ::set-output name=CARGO_TEST_OPTIONS::${CARGO_TEST_OPTIONS}
 
     - name: Run tests
+      if: ${{ matrix.job.target != 'aarch64-apple-darwin' }}
       uses: actions-rs/cargo@v1
       with:
         use-cross: ${{ matrix.job.use-cross }}
