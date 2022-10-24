@@ -287,38 +287,38 @@ jobs:
     #     command: check
     #     args: --locked --target=${{ matrix.job.target }} --verbose --no-default-features --features minimal-application
 
-    # - name: Create tarball
-    #   id: package
-    #   shell: bash
-    #   run: |
-    #     PKG_suffix=".tar.gz" ; case ${{ matrix.job.target }} in *-pc-windows-*) PKG_suffix=".zip" ;; esac;
-    #     PKG_BASENAME=${PROJECT_NAME}-v${PROJECT_VERSION}-${{ matrix.job.target }}
-    #     PKG_NAME=${PKG_BASENAME}${PKG_suffix}
-    #     echo ::set-output name=PKG_NAME::${PKG_NAME}
-    #     PKG_STAGING="${{ env.CICD_INTERMEDIATES_DIR }}/package"
-    #     ARCHIVE_DIR="${PKG_STAGING}/${PKG_BASENAME}/"
-    #     mkdir -p "${ARCHIVE_DIR}"
-    #     mkdir -p "${ARCHIVE_DIR}/autocomplete"
-    #     # Binary
-    #     cp "${{ steps.strip.outputs.BIN_PATH }}" "$ARCHIVE_DIR"
-    #     # Man page
-    #     cp 'doc/${{ env.PROJECT_NAME }}.1' "$ARCHIVE_DIR"
-    #     # README, LICENSE and CHANGELOG files
-    #     cp "README.md" "LICENSE-MIT" "LICENSE-APACHE" "CHANGELOG.md" "$ARCHIVE_DIR"
-    #     # Autocompletion files
-    #     cp 'target/${{ matrix.job.target }}/release/build/${{ env.PROJECT_NAME }}'*/out/'${{ env.PROJECT_NAME }}.bash' "$ARCHIVE_DIR/autocomplete/"
-    #     cp 'target/${{ matrix.job.target }}/release/build/${{ env.PROJECT_NAME }}'*/out/'${{ env.PROJECT_NAME }}.fish' "$ARCHIVE_DIR/autocomplete/"
-    #     cp 'target/${{ matrix.job.target }}/release/build/${{ env.PROJECT_NAME }}'*/out/'_${{ env.PROJECT_NAME }}.ps1' "$ARCHIVE_DIR/autocomplete/"
-    #     cp 'contrib/completion/_fd' "$ARCHIVE_DIR/autocomplete/"
-    #     # base compressed package
-    #     pushd "${PKG_STAGING}/" >/dev/null
-    #     case ${{ matrix.job.target }} in
-    #       *-pc-windows-*) 7z -y a "${PKG_NAME}" "${PKG_BASENAME}"/* | tail -2 ;;
-    #       *) tar czf "${PKG_NAME}" "${PKG_BASENAME}"/* ;;
-    #     esac;
-    #     popd >/dev/null
-    #     # Let subsequent steps know where to find the compressed package
-    #     echo ::set-output name=PKG_PATH::"${PKG_STAGING}/${PKG_NAME}"
+    - name: Create tarball
+      id: package
+      shell: bash
+      run: |
+        PKG_suffix=".tar.gz" ; case ${{ matrix.job.target }} in *-pc-windows-*) PKG_suffix=".zip" ;; esac;
+        PKG_BASENAME=${PROJECT_NAME}-v${PROJECT_VERSION}-${{ matrix.job.target }}
+        PKG_NAME=${PKG_BASENAME}${PKG_suffix}
+        echo ::set-output name=PKG_NAME::${PKG_NAME}
+        PKG_STAGING="${{ env.CICD_INTERMEDIATES_DIR }}/package"
+        ARCHIVE_DIR="${PKG_STAGING}/${PKG_BASENAME}/"
+        mkdir -p "${ARCHIVE_DIR}"
+        mkdir -p "${ARCHIVE_DIR}/autocomplete"
+        # Binary
+        cp "${{ steps.strip.outputs.BIN_PATH }}" "$ARCHIVE_DIR"
+        # Man page
+        # cp 'doc/${{ env.PROJECT_NAME }}.1' "$ARCHIVE_DIR"
+        # README, LICENSE and CHANGELOG files
+        cp "README.md" "LICENSE" "CHANGELOG.md" "$ARCHIVE_DIR"
+        # Autocompletion files
+        # cp 'target/${{ matrix.job.target }}/release/build/${{ env.PROJECT_NAME }}'*/out/'${{ env.PROJECT_NAME }}.bash' "$ARCHIVE_DIR/autocomplete/"
+        # cp 'target/${{ matrix.job.target }}/release/build/${{ env.PROJECT_NAME }}'*/out/'${{ env.PROJECT_NAME }}.fish' "$ARCHIVE_DIR/autocomplete/"
+        # cp 'target/${{ matrix.job.target }}/release/build/${{ env.PROJECT_NAME }}'*/out/'_${{ env.PROJECT_NAME }}.ps1' "$ARCHIVE_DIR/autocomplete/"
+        # cp 'contrib/completion/_fd' "$ARCHIVE_DIR/autocomplete/"
+        # base compressed package
+        pushd "${PKG_STAGING}/" >/dev/null
+        case ${{ matrix.job.target }} in
+          *-pc-windows-*) 7z -y a "${PKG_NAME}" "${PKG_BASENAME}"/* | tail -2 ;;
+          *) tar czf "${PKG_NAME}" "${PKG_BASENAME}"/* ;;
+        esac;
+        popd >/dev/null
+        # Let subsequent steps know where to find the compressed package
+        echo ::set-output name=PKG_PATH::"${PKG_STAGING}/${PKG_NAME}"
         
     # - name: Create Debian package
     #   id: debian-package
@@ -439,8 +439,9 @@ jobs:
       uses: softprops/action-gh-release@v1
       if: steps.is-release.outputs.IS_RELEASE
       with:
+        body_path: CHANGELOG.md
         files: |
           ${{ steps.package.outputs.PKG_PATH }}
-          ${{ steps.debian-package.outputs.DPKG_PATH }}
+          # ${{ steps.debian-package.outputs.DPKG_PATH }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
