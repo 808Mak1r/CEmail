@@ -13,4 +13,4 @@ target/
 # Other
 .codeup/
 test.txt
-output.json
+output*.json

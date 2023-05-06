@@ -33,8 +33,10 @@ $ cargo build --locked --release
 ## 使用
 
 ```bash
-$ ./cemail -h                                                                                                                                            main ✖ ✱ ◼
+$ ./cemail -h                                                                                         
+
 cemail 0.1.0
+808Mak1r <808Mak1r@gmail.com>
 A simple CLI to check if an email exists
 
 USAGE:
@@ -49,13 +51,13 @@ OPTIONS:
 ```
 
 状态：
-
 - `Safe`: 表示可送达
 - `Risky`: 表示存在风险不一定
 - `Invalid`: 表示不存在
 - `Unknown`
 
-检测单个目标邮箱
+
+- `-e` 检测单个目标邮箱，默认保存到`output.json`
 
 ```bash
 $ ./cemail -e 808Mak1r@gmail.com
@@ -65,9 +67,55 @@ $ ./cemail -e 808Mak1r@gmail.com
 2022-10-19 19:34:18.481  INFO 输出到文件: output.json
 ```
 
-详细信息默认输出到 `json` 中查看
+详细信息默认输出到 `json` 中查看，格式如下：
+```json
+{
+  "safe": [
+    "808Mak1r@gmail.com"
+  ],
+  "risky": [],
+  "invalid": [],
+  "unknown": [],
+  "ce_output": [
+    {
+      "input": "808Mak1r@gmail.com",
+      "is_reachable": "safe",
+      "misc": {
+        "is_disposable": false,
+        "is_role_account": false
+      },
+      "mx": {
+        "accepts_mail": true,
+        "records": [
+          "alt2.gmail-smtp-in.l.google.com.",
+          "alt4.gmail-smtp-in.l.google.com.",
+          "gmail-smtp-in.l.google.com.",
+          "alt3.gmail-smtp-in.l.google.com.",
+          "alt1.gmail-smtp-in.l.google.com."
+        ]
+      },
+      "smtp": {
+        "can_connect_smtp": true,
+        "has_full_inbox": false,
+        "is_catch_all": false,
+        "is_deliverable": true,
+        "is_disabled": false
+      },
+      "syntax": {
+        "address": "808Mak1r@gmail.com",
+        "domain": "gmail.com",
+        "is_valid_syntax": true,
+        "username": "808Mak1r"
+      }
+    }
+  ]
+}
+```
 
-批量检测目标邮箱，并将详细结果保存到 `test_out.json`
+
+- `-f` 批量检测目标邮箱，并将详细结果保存到 `test_out.json`
+
+可以通过`-o`指定输出文件名，不指定会默认保存为`output.json`，如果已经存在会按照顺序递归
 
 ```bash
 $ ./cemail -f test.txt -o test_out.json
