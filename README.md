@@ -32,6 +32,13 @@ $ cargo build --locked --release
 
 ## 使用
 
+根据检测结果，会返回 4 种不同的状态
+状态：
+- `Safe`: 表示可送达
+- `Risky`: 表示存在风险不一定
+- `Invalid`: 表示不存在
+- `Unknown`: 未知原应（eg: 网络问题等）
+
 ```bash
 $ ./cemail -h                                                                                         
 
@@ -49,12 +56,6 @@ OPTIONS:
     -o, --output <OUTPUT>    The output file [default: output.json]
     -V, --version            Print version information
 ```
-
-状态：
-- `Safe`: 表示可送达
-- `Risky`: 表示存在风险不一定
-- `Invalid`: 表示不存在
-- `Unknown`
 
 
 - `-e` 检测单个目标邮箱，默认保存到`output.json`
